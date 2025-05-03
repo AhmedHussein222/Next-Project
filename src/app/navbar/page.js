@@ -5,14 +5,12 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import { auth, signOut } from "../auth";
-import { useSession } from "next-auth/react";
 
 async function out() {
   setIsLogged(false);
   await signOut();
 }
 export default function Navbar() {
-  const {data: status , session} = useSession();
   
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -25,7 +23,7 @@ export default function Navbar() {
           className="flex items-center space-x-3 rtl:space-x-reverse"
         >
           <Image
-            src= {session?.user?.Image ||   "https://flowbite.com/docs/images/logo.svg"}
+            src= {"https://flowbite.com/docs/images/logo.svg"}
             className="h-8"
             alt="Flowbite Logo"
             width={32}
