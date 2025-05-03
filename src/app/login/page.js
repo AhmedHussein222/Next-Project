@@ -5,7 +5,7 @@ import Link from "next/link";
 
 export default function Login() {
   async function login() {
-    "user server"
+    "use server"
     // await signIn("google", {
     
   }
