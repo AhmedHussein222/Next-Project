@@ -2,14 +2,19 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { auth, signIn } from "../auth";
 
-export default function Login() {
+export default async function Login() {
   async function login() {
-    "use server"
-    // await signIn("google", {
+      "use server"
+      await signIn("google", { redirectTo: "/products" });
+    }
+    let user = await auth();
+    console.log(user);
     
-  }
   
+
+
   return (
     <section className="bg-gray-50 dark:bg-gray-900">
       <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
@@ -33,7 +38,8 @@ export default function Login() {
               Sign in to your account
             </h1>
 
-            <form className="space-y-4 md:space-y-6" action="#">
+            <form 
+            className="space-y-4 md:space-y-6" >
               <div>
                 <label
                   htmlFor="email"
@@ -101,6 +107,32 @@ export default function Login() {
                 className="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
               >
                 Sign in
+              </button>
+
+              {/* Google Sign In Button */}
+              <div className="relative">
+                <div className="absolute inset-0 flex items-center">
+                  <div className="w-full border-t border-gray-300"></div>
+                </div>
+                <div className="relative flex justify-center text-sm">
+                  <span className="px-2 bg-white text-gray-500">
+                    Or continue with
+                  </span>
+                </div>
+              </div>
+
+              <button
+                type="button"
+                onClick={login}
+                className="w-full flex items-center justify-center gap-2 bg-white border border-gray-300 rounded-lg py-2.5 text-sm font-medium text-gray-800 hover:bg-gray-50 focus:ring-4 focus:ring-primary-300"
+              >
+                <Image
+                  src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg"
+                  alt="Google logo"
+                  width={18}
+                  height={18}
+                />
+                Sign in with Google
               </button>
 
               <p className="text-sm font-light text-gray-500 dark:text-gray-400">

@@ -1,17 +1,19 @@
 "use client";
 
-import { redirect } from "next/dist/server/api-utils";
+// import { redirect } from "next/dist/server/api-utils";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
+import { auth, signOut } from "../auth";
+import { useSession } from "next-auth/react";
 
-
-export default function Navbar() {
 async function out() {
-  await signOut({redirect: "/login"})  
-  
+  setIsLogged(false);
+  await signOut();
 }
-
+export default function Navbar() {
+  const {data: status , session} = useSession();
+  
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
@@ -23,7 +25,7 @@ async function out() {
           className="flex items-center space-x-3 rtl:space-x-reverse"
         >
           <Image
-            src="https://flowbite.com/docs/images/logo.svg"
+            src= {session?.user?.Image ||   "https://flowbite.com/docs/images/logo.svg"}
             className="h-8"
             alt="Flowbite Logo"
             width={32}
@@ -76,36 +78,53 @@ async function out() {
               </Link>
             </li>
 
+
+            <li>
+              <Link
+                href="/login"
+                className="block py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
+              >
+                Login
+              </Link>
+            </li>
+            <li>
+              <Link
+                href={"/products"}
+                className="block py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
+              >
+                Products
+              </Link>
+            </li>
+            <li>
+              <Link
+                href="/contact"
+                className="block py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
+              >
+                Contact
+              </Link>
+            </li>
+            
             <li className="relative">
-              <button
+              <Image
                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
                 id="dropdownNavbarLink"
-                className="flex items-center justify-between w-full py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 md:w-auto dark:text-white md:dark:hover:text-blue-500 dark:focus:text-white dark:border-gray-700 dark:hover:bg-gray-700 md:dark:hover:bg-transparent"
-              >
-                Dropdown
-                <svg
-                  className="w-2.5 h-2.5 ms-2.5"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 10 6"
-                >
-                  <path
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="m1 1 4 4 4-4"
-                  />
-                </svg>
-              </button>
+                className="w-8 h-8 rounded-full"
+                src={
+                  auth.user
+                    ? auth.user.Image
+                    : "https://img.freepik.com/premium-vector/avatar-profile-picture-icon-blue-background-flat-design-style-resources-graphic-element-design_991720-653.jpg?semt=ais_hybrid&w=740"
+                }
+                alt="Jese image"
+                width={32}
+                height={32}
+              />
 
               {/* Dropdown menu */}
               <div
                 id="dropdownNavbar"
                 className={`${
                   isDropdownOpen ? "block" : "hidden"
-                } absolute z-10 font-normal bg-white divide-y divide-gray-100 rounded-lg shadow-sm w-44 dark:bg-gray-700 dark:divide-gray-600`}
+                } absolute z-10 -left-24 font-normal bg-white divide-y divide-gray-100 rounded-lg shadow-sm w-30 dark:bg-gray-700 dark:divide-gray-600`}
               >
                 <ul
                   className="py-2 text-sm text-gray-700 dark:text-gray-400"
@@ -139,37 +158,13 @@ async function out() {
                 <div className="py-1">
                   <Link
                     href="#"
+                    onClick={out}
                     className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
                   >
                     Sign out
                   </Link>
                 </div>
               </div>
-            </li>
-
-            <li>
-              <Link
-                href="/login"
-                className="block py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
-              >
-                Login
-              </Link>
-            </li>
-            <li>
-              <Link
-                href={"/products"}
-                className="block py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
-              >
-                Products
-              </Link>
-            </li>
-            <li>
-              <Link
-                href="/contact"
-                className="block py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
-              >
-                Contact
-              </Link>
             </li>
           </ul>
         </div>
