@@ -1,5 +1,4 @@
 import { Geist, Geist_Mono } from "next/font/google";
-import { auth } from "./auth";
 import Footer from "./footer/page";
 import "./globals.css";
 import Navbar from "./navbar/page";
@@ -23,7 +22,6 @@ export const metadata = {
 };
 
 export default async function RootLayout({ children }) {
-  const session = await auth();
 
   return (
     <html lang="en">
