@@ -1,5 +1,3 @@
-// "use client"; // Required for client-side interactivity
-
 import Image from "next/image";
 import Link from "next/link";
 import { auth, signIn } from "../auth";

@@ -1,17 +1,27 @@
 "use client";
 
 // import { redirect } from "next/dist/server/api-utils";
+// import { signOut } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
-import { auth, signOut } from "../auth";
+import { auth , signOut } from "../auth";
 
 async function out() {
-  setIsLogged(false);
-  await signOut();
+  await signOut({ callbackUrl: "/" });
+}
+export  async function UserAvatar() {
+  const session = await auth()
+ 
+  if (!session?.user) return null
+ 
+  return (
+    <div>
+      <Image src={session.user.image} alt="User Avatar" />
+    </div>
+  )
 }
 export default function Navbar() {
-  
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
@@ -22,8 +32,9 @@ export default function Navbar() {
           href="#"
           className="flex items-center space-x-3 rtl:space-x-reverse"
         >
+          <UserAvatar />
           <Image
-            src= {"https://flowbite.com/docs/images/logo.svg"}
+            src={"https://flowbite.com/docs/images/logo.svg"}
             className="h-8"
             alt="Flowbite Logo"
             width={32}
@@ -76,7 +87,6 @@ export default function Navbar() {
               </Link>
             </li>
 
-
             <li>
               <Link
                 href="/login"
@@ -101,7 +111,7 @@ export default function Navbar() {
                 Contact
               </Link>
             </li>
-            
+
             <li className="relative">
               <Image
                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
