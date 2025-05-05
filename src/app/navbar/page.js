@@ -3,6 +3,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
+import { signOut } from "../auth";
+// import  signOut  from "next-auth/react";
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -94,9 +96,8 @@ export default function Navbar() {
                   Contact
                 </Link>
               </li>
-              {/* <form action={logOut} className="inline-block"> */}
-                <button>logout</button>
-              {/* </form> */}
+                <button
+                onClick={signOut}>logout</button>
               <li className="relative">
                 <Image
                   onClick={() => setIsDropdownOpen(!isDropdownOpen)}
