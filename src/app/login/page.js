@@ -5,7 +5,7 @@ import { auth, signIn } from "../auth";
 export default async function Login() {
   async function login() {
       "use server"
-      await signIn("google", { redirectTo: "/" });
+      await signIn("google", { redirectTo: "/products" });
     }
     let user = await auth();
     console.log(user);
