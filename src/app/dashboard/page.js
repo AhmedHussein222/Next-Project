@@ -64,7 +64,7 @@ export default function UsersPage() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(user),
-      });
+      }); 
 
       if (response.ok) {
         fetchUsers();
